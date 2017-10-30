@@ -1,7 +1,7 @@
 <template>
-  <div class="rhymesaurus">
+  <div class="synonymasaurus">
     <form v-on:submit.prevent="findWords"><!-- event handler to allow the findWords method to handle this form submission. -->
-      <p>Find rhymes for <input type="text" v-model="rhyme"> related to <input type="text" v-model="phrase"> <button type="submit">Search</button></p>
+      <p>Find synonyms for <input type="text" v-model="synonym"><button type="submit">Search</button></p>
     </form>
     <!-- results list shows only if there are results and if the length is greater than 0. -->
     <ul class="results" v-if="((results)&&(results.length>0))">
@@ -16,6 +16,7 @@
       <h2>No Words Found</h2>
       <p>Please adjust your search to find more words.</p>
     </div>
+
     <!--this errors list shows only if there are errors and if the length is greater than 0. -->
     <ul class="errors" v-if="errors.length>0">
       <!--loops through the errors. -->
@@ -24,8 +25,8 @@
       </li>
     </ul>
     <ul class="links">
-      <li><router-link v-bind:to = "{name:'Synonymasaurus'}">Synonymasaurus</router-link></li>  
-    </ul>
+  <li><router-link v-bind:to = "{name:'Rhymesaurus'}">Rhymesaurus</router-link></li>  
+  </ul>
   </div>
 </template>
 
@@ -33,13 +34,12 @@
 import axios from 'axios';
 
 export default {
-  name: 'Rhymesaurus',
+  name: 'Synonymasaurus',
   data () {
     return {
       results: null,
       errors: [],
-      phrase: '',
-      rhyme: ''
+      synonym: ''
     }
   },
     //findWords method.
@@ -47,8 +47,7 @@ export default {
       findWords:function() {
         axios.get('https://api.datamuse.com/words', {
           params: {
-            ml:this.phrase,
-            rel_rhy:this.rhyme
+            rel_syn:this.synonym
           }
           })
           .then(response=> {
@@ -64,7 +63,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.rhymesaurus {
+.synonymasaurus {
   font-size: 1.4rem;
 }
 
